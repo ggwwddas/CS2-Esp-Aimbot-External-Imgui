@@ -6,18 +6,18 @@ DONT use in REAL GAME
 
 **DO NOT** *Resell this cheat*
 -----------------------------------------
-| - **has**                             |
-| - Box Esp                             |
-| - Fill Esp                            |
-| - Bone Esp                            |
-| - Name Esp                            |
-| - HealthBar Esp                       |
-| - Snapline Esp                        |
-| - **Colors For ESP'S**                |
-|                                       |
-| - **Aimbot (Mouse 5)**                |
-| - **TriggerBot (X Key On Keyboard)**  |
-| - Fov Changer                         |
+ - **has**                             |
+ - Box Esp                             |
+ - Fill Esp                            |
+ - Bone Esp                            |
+ - Name Esp                            |
+ - HealthBar Esp                       |
+ - Snapline Esp                        |
+ - **Colors For ESP'S**                |
+                                       |
+ - **Aimbot (Mouse 5)**                |
+ - **TriggerBot (X Key On Keyboard)**  |
+ - Fov Changer                         |
 -----------------------------------------
 
 # -DISCLAIMER (!EDUCATIONAL PURPOSES ONLY!)
