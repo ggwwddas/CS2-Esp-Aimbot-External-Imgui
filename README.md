@@ -1,12 +1,12 @@
 # CS2-Esp-Aimbot-External EDUCATIONAL PURPOSES ONLY!
 CS2(Counter Strike 2) External ESP+Aimbot Cheat
 
-DONT use in REAL GAME
-**USE *-insecure* Before Start The Game**
+**DONT** use in *REAL GAME*
+**USE** **-insecure** *Before Start The Game*
 
 **DO NOT** *Resell this cheat*
 -----------------------------------------
- - **has**                             
+ - *has*                            
  - Box Esp                             
  - Fill Esp                            
  - Bone Esp                            
@@ -21,4 +21,4 @@ DONT use in REAL GAME
 -----------------------------------------
 
 # -DISCLAIMER (!EDUCATIONAL PURPOSES ONLY!)
-- *IF YOU USE IN REAL GAME AND GET BAN IM NOT* **I am not responsible**
+- *IF YOU USE IN REAL GAME AND GET BAN* **IM NOT RESPONSIBLE**
