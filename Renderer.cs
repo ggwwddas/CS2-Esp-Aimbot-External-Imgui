@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,392 +74,545 @@ namespace cs2simpleESPBones
         #endregion
 
         #region style
-        private void ApplyDarkStyle()
+        void ApplyStyle()
         {
             var style = ImGui.GetStyle();
             var colors = style.Colors;
 
-            style.WindowRounding = 10f;
-            style.FrameRounding = 4f;
-            style.GrabRounding = 4f;
-            style.FrameBorderSize = 1f;
-            style.WindowBorderSize = 1f;
-            style.ItemSpacing = new Vector2(10, 8);
-            style.ScrollbarSize = 12f;
-            style.FramePadding = new Vector2(10, 8); // Yatay ve dikey padding menubar
+            // Genel stil ayarları
+            style.WindowPadding = new Vector2(8, 8);
+            style.FramePadding = new Vector2(4, 3);
+            style.CellPadding = new Vector2(4, 2);
+            style.ItemSpacing = new Vector2(8, 4);
+            style.ItemInnerSpacing = new Vector2(4, 4);
+            style.TouchExtraPadding = new Vector2(0, 0);
+            style.IndentSpacing = 21.0f;
+            style.ScrollbarSize = 14.0f;
+            style.GrabMinSize = 12.0f;
 
-            style.WindowMenuButtonPosition = ImGuiDir.Right;
-            style.WindowTitleAlign = new Vector2(0.60f, 0.60f);
+            style.WindowBorderSize = 1.0f;
+            style.ChildBorderSize = 1.0f;
+            style.PopupBorderSize = 1.0f;
+            style.FrameBorderSize = 0.0f;
+            style.TabBorderSize = 0.0f;
 
-            //text
-            colors[(int)ImGuiCol.Text] = new Vector4(0.95f, 0.96f, 0.98f, 1.00f);
+            style.WindowRounding = 6.0f;
+            style.ChildRounding = 6.0f;
+            style.FrameRounding = 3.0f;
+            style.PopupRounding = 6.0f;
+            style.ScrollbarRounding = 9.0f;
+            style.GrabRounding = 3.0f;
+            style.TabRounding = 4.0f;
 
-            //window
-            colors[(int)ImGuiCol.WindowBg] = new Vector4(0.08f, 0.08f, 0.10f, 0.8f);
-            colors[(int)ImGuiCol.ChildBg] = new Vector4(0.10f, 0.10f, 0.12f, 0.8f);
-
-            //checkbox
-            colors[(int)ImGuiCol.FrameBg] = new Vector4(0.12f, 0.12f, 0.15f, 1.00f); // checkbox nonhovered color
-            colors[(int)ImGuiCol.FrameBgHovered] = new Vector4(0.20f, 0.20f, 0.25f, 1.00f); //hover
-            colors[(int)ImGuiCol.FrameBgActive] = new Vector4(0.30f, 0.30f, 0.35f, 1.00f); //active
-            style.Colors[(int)ImGuiCol.CheckMark] = new Vector4(0.0f, 1.0f, 0.0f, 1.0f); //check color
-
-            //title
-            colors[(int)ImGuiCol.TitleBg] = new Vector4(0.08f, 0.08f, 0.10f, 1.00f);
-            colors[(int)ImGuiCol.TitleBgActive] = new Vector4(0.10f, 0.10f, 0.12f, 1.00f);
-
-            //button
-            colors[(int)ImGuiCol.Button] = new Vector4(0.18f, 0.18f, 0.22f, 1.00f);
-            colors[(int)ImGuiCol.ButtonHovered] = new Vector4(0.28f, 0.28f, 0.35f, 1.00f);
-            colors[(int)ImGuiCol.ButtonActive] = new Vector4(0.40f, 0.40f, 0.50f, 1.00f);
-
+            colors[(int)ImGuiCol.Text] = new Vector4(0.90f, 0.90f, 0.90f, 1.00f);
+            colors[(int)ImGuiCol.TextDisabled] = new Vector4(0.60f, 0.60f, 0.60f, 1.00f);
+            colors[(int)ImGuiCol.WindowBg] = new Vector4(0.09f, 0.09f, 0.09f, 0.94f);
+            colors[(int)ImGuiCol.ChildBg] = new Vector4(0.11f, 0.11f, 0.11f, 1f);
+            colors[(int)ImGuiCol.PopupBg] = new Vector4(0.11f, 0.11f, 0.11f, 0.94f);
+            colors[(int)ImGuiCol.Border] = new Vector4(0.27f, 0.27f, 0.27f, 0.50f);
+            colors[(int)ImGuiCol.BorderShadow] = new Vector4(0.00f, 0.00f, 0.00f, 0.00f);
+            colors[(int)ImGuiCol.FrameBg] = new Vector4(0.20f, 0.20f, 0.20f, 0.54f);
+            colors[(int)ImGuiCol.FrameBgHovered] = new Vector4(0.27f, 0.27f, 0.27f, 0.54f);
+            colors[(int)ImGuiCol.FrameBgActive] = new Vector4(0.32f, 0.32f, 0.32f, 0.54f);
+            colors[(int)ImGuiCol.TitleBg] = new Vector4(0.12f, 0.12f, 0.12f, 1.00f);
+            colors[(int)ImGuiCol.TitleBgActive] = new Vector4(0.12f, 0.12f, 0.12f, 1.00f);
+            colors[(int)ImGuiCol.TitleBgCollapsed] = new Vector4(0.12f, 0.12f, 0.12f, 1.00f);
+            colors[(int)ImGuiCol.MenuBarBg] = new Vector4(0.14f, 0.14f, 0.14f, 1.00f);
+            colors[(int)ImGuiCol.ScrollbarBg] = new Vector4(0.05f, 0.05f, 0.05f, 0.54f);
+            colors[(int)ImGuiCol.ScrollbarGrab] = new Vector4(0.34f, 0.34f, 0.34f, 0.54f);
+            colors[(int)ImGuiCol.ScrollbarGrabHovered] = new Vector4(0.40f, 0.40f, 0.40f, 0.54f);
+            colors[(int)ImGuiCol.ScrollbarGrabActive] = new Vector4(0.45f, 0.45f, 0.45f, 0.54f);
+            colors[(int)ImGuiCol.CheckMark] = new Vector4(0.61f, 0.61f, 0.61f, 1.00f);
+            colors[(int)ImGuiCol.SliderGrab] = new Vector4(0.61f, 0.61f, 0.61f, 1.00f);
+            colors[(int)ImGuiCol.SliderGrabActive] = new Vector4(0.66f, 0.66f, 0.66f, 1.00f);
+            colors[(int)ImGuiCol.Button] = new Vector4(0.20f, 0.20f, 0.20f, .34f);
+            colors[(int)ImGuiCol.ButtonHovered] = new Vector4(0.27f, 0.27f, 0.27f, 0.54f);
+            colors[(int)ImGuiCol.ButtonActive] = new Vector4(0.32f, 0.32f, 0.32f, 0.54f);
+            colors[(int)ImGuiCol.Header] = new Vector4(0.20f, 0.20f, 0.20f, 0.54f);
+            colors[(int)ImGuiCol.HeaderHovered] = new Vector4(0.27f, 0.27f, 0.27f, 0.54f);
+            colors[(int)ImGuiCol.HeaderActive] = new Vector4(0.32f, 0.32f, 0.32f, 0.54f);
+            colors[(int)ImGuiCol.Separator] = new Vector4(0.27f, 0.27f, 0.27f, 0.50f);
+            colors[(int)ImGuiCol.SeparatorHovered] = new Vector4(0.32f, 0.32f, 0.32f, 0.54f);
+            colors[(int)ImGuiCol.SeparatorActive] = new Vector4(0.37f, 0.37f, 0.37f, 0.54f);
+            colors[(int)ImGuiCol.ResizeGrip] = new Vector4(0.28f, 0.28f, 0.28f, 0.29f);
+            colors[(int)ImGuiCol.ResizeGripHovered] = new Vector4(0.44f, 0.44f, 0.44f, 0.29f);
+            colors[(int)ImGuiCol.ResizeGripActive] = new Vector4(0.50f, 0.50f, 0.50f, 0.29f);
+            colors[(int)ImGuiCol.Tab] = new Vector4(0.15f, 0.15f, 0.15f, 0.86f);
+            colors[(int)ImGuiCol.TabHovered] = new Vector4(0.25f, 0.25f, 0.25f, 0.86f);
+            colors[(int)ImGuiCol.TabActive] = new Vector4(0.20f, 0.20f, 0.20f, 1.00f);
+            colors[(int)ImGuiCol.TabUnfocused] = new Vector4(0.10f, 0.10f, 0.10f, 0.97f);
+            colors[(int)ImGuiCol.TabUnfocusedActive] = new Vector4(0.15f, 0.15f, 0.15f, 1.00f);
+            colors[(int)ImGuiCol.PlotLines] = new Vector4(0.61f, 0.61f, 0.61f, 1.00f);
+            colors[(int)ImGuiCol.PlotLinesHovered] = new Vector4(1.00f, 0.43f, 0.35f, 1.00f);
+            colors[(int)ImGuiCol.PlotHistogram] = new Vector4(0.90f, 0.70f, 0.00f, 1.00f);
+            colors[(int)ImGuiCol.PlotHistogramHovered] = new Vector4(1.00f, 0.60f, 0.00f, 1.00f);
+            colors[(int)ImGuiCol.TableHeaderBg] = new Vector4(0.19f, 0.19f, 0.20f, 1.00f);
+            colors[(int)ImGuiCol.TableBorderStrong] = new Vector4(0.31f, 0.31f, 0.35f, 1.00f);
+            colors[(int)ImGuiCol.TableBorderLight] = new Vector4(0.23f, 0.23f, 0.25f, 1.00f);
+            colors[(int)ImGuiCol.TableRowBg] = new Vector4(0.00f, 0.00f, 0.00f, 0.00f);
+            colors[(int)ImGuiCol.TableRowBgAlt] = new Vector4(1.00f, 1.00f, 1.00f, 0.06f);
+            colors[(int)ImGuiCol.TextSelectedBg] = new Vector4(0.26f, 0.59f, 0.98f, 0.35f);
+            colors[(int)ImGuiCol.DragDropTarget] = new Vector4(1.00f, 1.00f, 0.00f, 0.90f);
+            colors[(int)ImGuiCol.NavHighlight] = new Vector4(0.26f, 0.59f, 0.98f, 1.00f);
+            colors[(int)ImGuiCol.NavWindowingHighlight] = new Vector4(1.00f, 1.00f, 1.00f, 0.70f);
+            colors[(int)ImGuiCol.NavWindowingDimBg] = new Vector4(0.80f, 0.80f, 0.80f, 0.20f);
+            colors[(int)ImGuiCol.ModalWindowDimBg] = new Vector4(0.80f, 0.80f, 0.80f, 0.35f);
         }
-
         #endregion
 
-        // draw list
         ImDrawListPtr drawList;
-        int selectedTab = 0;
-
+        int activeTab = 1;
 
         protected override void Render()
         {
-
             var handle = GetConsoleWindow();
-                    ShowWindow(handle, SW_HIDE);
+            ShowWindow(handle, SW_HIDE);
 
-                    ApplyDarkStyle();
-                    ImGui.SetNextWindowSize(new Vector2(700,500));
-                    ImGui.Begin("Hexa CS2", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.MenuBar);
+            ApplyStyle();
+            ImGui.SetNextWindowSize(new Vector2(690,460));
+            ImGui.Begin("Hexa CS2", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
+
+            #region font
+            ReplaceFont("C:\\Windows\\Fonts\\arialbd.TTF", 14, FontGlyphRangeType.English);
+            #endregion
+
+            if (ImGui.BeginMenuBar())
+            {
+              ImGui.SetCursorPosX(315);
+              ImGui.Text("Hexa CS2");
+              ImGui.EndMenuBar();
+            }
+
+            #region sidebar
+            var style = ImGui.GetStyle();
+            var colors = style.Colors;
+
+            ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 5f);
+            ImGui.BeginChild("LeftTabs", new Vector2(170, 0), ImGuiChildFlags.None);
+
+            //TABS
+
+            ImGui.SetCursorPosY(5);
+            ImGui.SetCursorPosX(66.8f);
+            ImGui.SetWindowFontScale(1.1f);
+            ImGui.Text("Hexa");
+            ImGui.Spacing();
+            ImGui.Separator();
+            //ImGui.Spacing();
+            ImGui.SetWindowFontScale(1.0f);
+
+            //Rage Wallhack-Aimbot
+            ImGui.SeparatorText("Rage");
+            if (ImGui.Button("WallHack", new Vector2(-1, 35)))
+            {
+                activeTab = 1;
+            }
+            ImGui.PopStyleColor();
 
 
-                    if (ImGui.BeginMenuBar())
-                    {
-                        ImGui.SetCursorPosX(350);
-                        ImGui.Text("Hexa CS2");
-                        ImGui.EndMenuBar();
-                    }
+            if (ImGui.Button("Aimbot", new Vector2(-1, 35)))
+            {
+                activeTab = 2;
+            }
+            //Rage Wallhack-Aimbot
+
+            // semi safe triggerbot
+            ImGui.SeparatorText("Semi-Safe");
+            ImGui.Spacing();
+            if (ImGui.Button("Trigger", new Vector2(-1, 35)))
+            {
+                activeTab = 3;
+            }
+            ImGui.Spacing();
+            // semi safe triggerbot
+
+            // safe visuals fov-snaplineposx
+            ImGui.SeparatorText("Safe Visuals");
+            ImGui.Spacing();
+            if (ImGui.Button("Field Of View", new Vector2(-1, 35)))
+            {
+                activeTab = 4;
+            }
+
+            if (ImGui.Button("Snapline PosX", new Vector2(-1, 35)))
+            {
+                activeTab = 5;
+            }
+            ImGui.Spacing();
+            // safe visuals fov-snaplineposx
+
+
+            // other misc-exit
+            ImGui.SeparatorText("Other");
+            ImGui.Spacing();
+            if (ImGui.Button("Misc", new Vector2(-1, 35)))
+            {
+                activeTab = 6;
+            }
+            ImGui.PopStyleColor();
+
+            if (ImGui.Button("Exit", new Vector2(-1, 35)))
+            {
+                activeTab = 7;
+            }
+            // other misc-exit
+
+
+            ImGui.EndChild();
+            ImGui.SameLine();
+            #endregion
             
-                    #region sidebar
-                    // Sol Sidebar
-                    ImGui.BeginChild("Sidebar", new Vector2(100, 0));
+            ImGui.SameLine();
 
-                    ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 4f);
-                    ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(4, 4));
-                    ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.15f, 0.15f, 0.15f, 1f)); // Normal
-                    ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.25f, 0.25f, 0.25f, 1f)); // Hover
-                    ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.2f, 0.2f, 1f)); // Aktif
+            #region tabs
+            colors[(int)ImGuiCol.ChildBg] = new Vector4(0.11f, 0.11f, 0.11f, 1f);
+            ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 10f);
+            ImGui.BeginChild("MainPanel", new Vector2(475, 00));
 
-                    // Yukarıdan ve soldan boşluk
-                    ImGui.SetCursorPosY(10); // Yukarıdan 10px boşluk
-                    ImGui.SetCursorPosX(5); // Soldan 5px boşluk
+            switch (activeTab)
+              {
+                case 1:
+                    WallhackTab();
+                    break;
 
-                    //====================COLORS=========================\\
-                    if (ImGui.Button("Colors", new Vector2(90, 30))) selectedTab = 0;
+                case 2:
+                    AimbotTab();
+                    break;
 
-                    //====================RAGE=========================\\
-                    ImGui.SetCursorPosX(5); // Soldan 5px boşluk
-                    if (ImGui.Button("Rage", new Vector2(90, 30))) selectedTab = 1;
+                case 3:
+                    triggerLegit();
+                    break;
 
-                    //====================THICKNESS=========================\\
-                    ImGui.SetCursorPosX(5); // Soldan 5px boşluk
-                    if (ImGui.Button("Legit", new Vector2(90, 30))) selectedTab = 2;
+                case 4:
+                    VisualFovLegit();
+                    break;
 
-                    //====================EXIT=========================\\
-                    ImGui.SetCursorPosY(420);
-                    ImGui.SetCursorPosX(5); // Soldan 5px boşluk
-                    if (ImGui.Button("EXIT", new Vector2(90, 30))) selectedTab = 3;
+                case 5:
+                    VisualSnaplineLegit();
+                    break;
 
-                    ImGui.PopStyleColor(3);
-                    ImGui.PopStyleVar(2);
-                    ImGui.EndChild();
+                case 6:
+                    MiscTab();
+                    break;
 
-                    #endregion
-
-                    ImGui.SameLine();
-
-                    ImGui.PushStyleVar(ImGuiStyleVar.ChildRounding, 10.0f);
-
-                    #region tabs
-                    // Sağ Panel
-                    ImGui.BeginChild("MainPanel", new Vector2(575, 455));
-
-                    switch (selectedTab)
-                    {
-                        case 0:
-                            //===================TEAM COLOR=========================\\
-                            ImGui.SetCursorPosX(10);
-                            ImGui.SetCursorPosY(10);
-                            ImGui.Text("Color Settign");
-                            ImGui.Spacing();
-
-                            ImGui.Separator();
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Team Color");
-                            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
-                            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.ColorEdit4("##teamcolor", ref teamColor,
-                                ImGuiColorEditFlags.NoInputs |
-                                ImGuiColorEditFlags.NoLabel |
-                                ImGuiColorEditFlags.AlphaPreviewHalf);
-                            ImGui.PopStyleVar(2);
-
-                            ImGui.Spacing();
-
-
-                            //===================ENEMY COLOR=========================\\
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Enemy Color");
-                            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
-                            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.ColorEdit4("##enemycolor", ref enemyColor,
-                                ImGuiColorEditFlags.NoInputs |
-                                ImGuiColorEditFlags.NoLabel |
-                                ImGuiColorEditFlags.AlphaPreviewHalf);
-                            ImGui.PopStyleVar(2);
-
-                            ImGui.Spacing();
-
-                            //===================BONECOLOR=========================\\
-                            ImGui.Separator();
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Bone Color");
-                            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
-                            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.ColorEdit4("##bonecolor", ref boneColor,
-                                ImGuiColorEditFlags.NoInputs |
-                                ImGuiColorEditFlags.NoLabel |
-                                ImGuiColorEditFlags.AlphaPreviewHalf);
-                            ImGui.PopStyleVar(2);
-
-                            ImGui.Spacing();
-
-                            //===================FILL COLOR=========================\\
-                            ImGui.Separator();
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Fill Color");
-                            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
-                            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.ColorEdit4("##fillcolor", ref fillColor,
-                                ImGuiColorEditFlags.NoInputs |
-                                ImGuiColorEditFlags.NoLabel |
-                                ImGuiColorEditFlags.AlphaPreviewHalf);
-                            ImGui.PopStyleVar(2);
-
-                            //===================NAME COLOR=========================\\
-                            ImGui.Separator();
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Name Color");
-                            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
-                            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.ColorEdit4("##namecolor", ref nameColor,
-                                ImGuiColorEditFlags.NoInputs |
-                                ImGuiColorEditFlags.NoLabel |
-                                ImGuiColorEditFlags.AlphaPreviewHalf);
-                            ImGui.PopStyleVar(2); break;
-
-                        //===================MISC=========================\\
-                        case 1:
-
-                            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Rage Area");
-
-                            ImGui.Separator();
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Box ESP", ref boxESP);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Fill Box ESP", ref fillESP);
-
-                            ImGui.Spacing();
-
-                            ImGui.Separator();
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Name ESP", ref nameESP);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Health ESP", ref healthESP);
-
-                            ImGui.Spacing();
-
-                            ImGui.Separator();
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Bone ESP", ref enableESP);
-                            ImGui.SameLine();
-                            ImGui.Checkbox("Fill Head", ref fillheadESP);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Snaplines ESP", ref snaplines);
-
-                            ImGui.Spacing();
-
-                            ImGui.Separator();
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Aimbot - Mouse 5", ref aimbot);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("Aim On Mate", ref aimonmate);
-
-
-                            ImGui.SetCursorPosX(10);
-                            if (ImGui.Button("Enable All Esp's", new Vector2(140, 25)))
-                            {
-                                enableESP = true;
-                                fillheadESP = true;
-                                boxESP = true;
-                                fillESP = true;
-                                nameESP = true;
-                                healthESP = true;
-                                snaplines = true;
-                                aimbot = true;
-                            }
-
-                            ImGui.SetCursorPosX(10);
-
-                            if (ImGui.Button("Disable All Esp's" ,new Vector2(140, 25)))
-                            {
-                                ImGui.SetCursorPosX(10);
-                                enableESP = false;
-                                fillheadESP = false;
-                                boxESP = false;
-                                fillESP = false;
-                                nameESP = false;
-                                healthESP = false;
-                                snaplines = false;
-                                aimbot = false;
-                            }
-
-                            break;
-
-                        case 2:
-
-                            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Text("Legit Area");
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.Checkbox("TriggerBot", ref trigger);
-                    
-                            ImGui.SetCursorPosX(10);
-                            ImGui.SliderFloat("FOV Value", ref Fovdes, 60f, 160f);
-
-                            ImGui.SetCursorPosX(10);
-                            ImGui.SliderFloat("Snapline PosY", ref snaplinePos, 0f, 1100f);
-                            break;
-
-                        //===================EXIT=========================\\
-                        case 3:
-                            Environment.Exit(0);
-                            break;
-                    }
+                case 7:
+                    Environment.Exit(0);
+                    break;
+              }
             
-                    ImGui.EndChild();
-                    #endregion
+            ImGui.EndChild();
+            #endregion
 
-                    DrawOverlay(screenSize);
-                    drawList = ImGui.GetWindowDrawList();
+            DrawOverlay(screenSize);
+            drawList = ImGui.GetWindowDrawList();
 
-                    // draw stuff
-                    if (enableESP)
-                    {
-                        foreach (var entity in entities)
+            // draw stuff
+            if (enableESP)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawBones(entity);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawBones(entity);
+                                }
                             }
                         }
-                    }
 
-                    if (boxESP)
-                    {
-                        foreach (var entity in entities)
+            if (boxESP)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawBox(entity);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawBox(entity);
+                                }
                             }
                         }
-                    }
 
-                    if (fillheadESP)
-                    {
-                        foreach (var entity in entities)
+            if (fillheadESP)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawHeadFilled(entity);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawHeadFilled(entity);
+                                }
                             }
                         }
-                    }
 
-                    if (fillESP)
-                    {
-                        foreach (var entity in entities)
+            if (fillESP)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawFillBox(entity);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawFillBox(entity);
+                                }
                             }
                         }
-                    }
-
-                    if (nameESP)
-                    {
-                        foreach (var entity in entities)
+               
+            if (healthESP)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawName(entity, 0);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawHealth(entity);
+                                }
                             }
                         }
-                    }
 
-                    if (healthESP)
-                    {
-                        foreach (var entity in entities)
+            if (nameESP)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawHealth(entity);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawName(entity, 0);
+                                }
                             }
                         }
-                    }
 
-                    if (snaplines)
-                    {
-                        foreach (var entity in entities)
+            if (snaplines)
                         {
-                            // check if entity on screen
-                            if (EntityOnScreen(entity))
+                            foreach (var entity in entities)
                             {
-                                DrawHeadLine(entity);
+                                // check if entity on screen
+                                if (EntityOnScreen(entity))
+                                {
+                                    DrawHeadLine(entity);
+                                }
                             }
                         }
-                    }
+            }
+
+  
+        private void WallhackTab()
+        {
+            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+
+            ImGui.Spacing();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Rage Area");
+
+            ImGui.SeparatorText("Box ESP Settings");
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Box ESP", ref boxESP);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Fill Box ESP", ref fillESP);
+            ImGui.Spacing();
+
+
+            ImGui.SeparatorText("Other ESP Settings");
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Name ESP", ref nameESP);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Health ESP", ref healthESP);
+            ImGui.Spacing();
+
+
+            ImGui.SeparatorText("Bone ESP Settings");
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Bone ESP", ref enableESP);
+            ImGui.SameLine();
+            ImGui.Checkbox("Fill Head", ref fillheadESP);
+
+            ImGui.SeparatorText("Snapline");
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Snaplines ESP", ref snaplines);
+
+            ImGui.SeparatorText("Enable - Disable ESP Settings");
+            ImGui.Spacing();
+            ImGui.SetCursorPosX(10);
+            if (ImGui.Button("Enable All Esp's", new Vector2(140, 35)))
+            {
+                enableESP = true;
+                fillheadESP = true;
+                boxESP = true;
+                fillESP = true;
+                nameESP = true;
+                healthESP = true;
+                snaplines = true;
+                aimbot = true;
+            }
+
+            ImGui.SameLine();
+
+            ImGui.SetCursorPosX(170);
+            if (ImGui.Button("Disable All Esp's", new Vector2(140, 35)))
+            {
+                ImGui.SetCursorPosX(10);
+                enableESP = false;
+                fillheadESP = false;
+                boxESP = false;
+                fillESP = false;
+                nameESP = false;
+                healthESP = false;
+                snaplines = false;
+                aimbot = false;
+            }
+        }
+        
+        private void AimbotTab()
+        {
+            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+
+            ImGui.Spacing();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Rage Area");
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Aimbot - Mouse 5", ref aimbot);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("Aim On Mate", ref aimonmate);
+        }
+
+        private void triggerLegit()
+        {
+            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+
+            ImGui.Spacing();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Semi-Legit Area");
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Checkbox("TriggerBot", ref trigger);
+        }
+
+        private void VisualFovLegit()
+        {
+            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+
+            ImGui.Spacing();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Legit Area");
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.SliderFloat("FOV Value", ref Fovdes, 60f, 160f);
+        }
+
+        private void VisualSnaplineLegit()
+        {
+            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+
+            ImGui.Spacing();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Legit Area");
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.SliderFloat("Snapline PosY", ref snaplinePos, 0f, 1100f);
+        }
+
+        private void MiscTab()
+        {
+            //===================TEAM COLOR=========================\\
+
+            ImGui.Spacing();
+            ImGui.Spacing();
+
+            ImGui.SetCursorPosY(10);
+            ImGui.SetCursorPosX(10);
+
+            ImGui.Text("Color Settings");
+            ImGui.Spacing();
+
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Team Color");
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.ColorEdit4("##teamcolor", ref teamColor,
+                ImGuiColorEditFlags.NoInputs |
+                ImGuiColorEditFlags.NoLabel |
+                ImGuiColorEditFlags.AlphaPreviewHalf);
+            ImGui.PopStyleVar(2);
+
+            ImGui.Spacing();
+
+
+            //===================ENEMY COLOR=========================\\
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Enemy Color");
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.ColorEdit4("##enemycolor", ref enemyColor,
+                ImGuiColorEditFlags.NoInputs |
+                ImGuiColorEditFlags.NoLabel |
+                ImGuiColorEditFlags.AlphaPreviewHalf);
+            ImGui.PopStyleVar(2);
+
+            ImGui.Spacing();
+
+            //===================BONECOLOR=========================\\
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Bone Color");
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.ColorEdit4("##bonecolor", ref boneColor,
+                ImGuiColorEditFlags.NoInputs |
+                ImGuiColorEditFlags.NoLabel |
+                ImGuiColorEditFlags.AlphaPreviewHalf);
+            ImGui.PopStyleVar(2);
+
+            ImGui.Spacing();
+
+            //===================FILL COLOR=========================\\
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Fill Color");
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.ColorEdit4("##fillcolor", ref fillColor,
+                ImGuiColorEditFlags.NoInputs |
+                ImGuiColorEditFlags.NoLabel |
+                ImGuiColorEditFlags.AlphaPreviewHalf);
+            ImGui.PopStyleVar(2);
+
+            //===================NAME COLOR=========================\\
+            ImGui.Separator();
+
+            ImGui.SetCursorPosX(10);
+            ImGui.Text("Name Color");
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, new Vector2(6, 6));
+            ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 3.0f);
+
+            ImGui.SetCursorPosX(10);
+            ImGui.ColorEdit4("##namecolor", ref nameColor,
+                ImGuiColorEditFlags.NoInputs |
+                ImGuiColorEditFlags.NoLabel |
+                ImGuiColorEditFlags.AlphaPreviewHalf);
+            ImGui.PopStyleVar(2);
         }
 
             // check position
