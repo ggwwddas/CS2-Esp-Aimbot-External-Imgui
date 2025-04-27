@@ -186,12 +186,12 @@ namespace cs2simpleESPBones
             #region sidebar
             var style = ImGui.GetStyle();
             var colors = style.Colors;
-
+            
             ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 5f);
             ImGui.BeginChild("LeftTabs", new Vector2(170, 0), ImGuiChildFlags.None);
-
+            
             //TABS
-
+            
             ImGui.SetCursorPosY(5);
             ImGui.SetCursorPosX(66.8f);
             ImGui.SetWindowFontScale(1.1f);
@@ -200,64 +200,70 @@ namespace cs2simpleESPBones
             ImGui.Separator();
             //ImGui.Spacing();
             ImGui.SetWindowFontScale(1.0f);
-
+            
             //Rage Wallhack-Aimbot
             ImGui.SeparatorText("Rage");
-            if (ImGui.Button("WallHack", new Vector2(-1, 35)))
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("WallHack", new Vector2(160, 35)))
             {
                 activeTab = 1;
             }
             ImGui.PopStyleColor();
-
-
-            if (ImGui.Button("Aimbot", new Vector2(-1, 35)))
+            
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("Aimbot", new Vector2(160, 35)))
             {
                 activeTab = 2;
             }
             //Rage Wallhack-Aimbot
-
+            
             // semi safe triggerbot
             ImGui.SeparatorText("Semi-Safe");
             ImGui.Spacing();
-            if (ImGui.Button("Trigger", new Vector2(-1, 35)))
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("Trigger", new Vector2(160, 35)))
             {
                 activeTab = 3;
             }
             ImGui.Spacing();
             // semi safe triggerbot
-
+            
             // safe visuals fov-snaplineposx
             ImGui.SeparatorText("Safe Visuals");
             ImGui.Spacing();
-            if (ImGui.Button("Field Of View", new Vector2(-1, 35)))
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("Field Of View", new Vector2(160, 35)))
             {
                 activeTab = 4;
             }
-
-            if (ImGui.Button("Snapline PosX", new Vector2(-1, 35)))
+            
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("Snapline PosX", new Vector2(160, 35)))
             {
                 activeTab = 5;
             }
             ImGui.Spacing();
             // safe visuals fov-snaplineposx
-
-
+            
+            
             // other misc-exit
             ImGui.SeparatorText("Other");
             ImGui.Spacing();
-            if (ImGui.Button("Misc", new Vector2(-1, 35)))
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("Misc", new Vector2(160, 35)))
             {
                 activeTab = 6;
             }
             ImGui.PopStyleColor();
-
-            if (ImGui.Button("Exit", new Vector2(-1, 35)))
+            
+            ImGui.SetCursorPosX(5);
+            if (ImGui.Button("Exit", new Vector2(160, 35)))
             {
                 activeTab = 7;
             }
             // other misc-exit
-
-
+            
+            
             ImGui.EndChild();
             ImGui.SameLine();
             #endregion
