@@ -11,6 +11,7 @@ using System.Windows;
 using System.Runtime.InteropServices;
 using Vortice.Mathematics;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 
 namespace cs2simpleESPBones
 {
@@ -32,7 +33,6 @@ namespace cs2simpleESPBones
         [DllImport("user32.dll")]
         static extern short GetAsyncKeyState(int vKey);
 
-        int HOTKEY = 0x10;
         #endregion
 
         #region setting
@@ -60,6 +60,7 @@ namespace cs2simpleESPBones
         public bool aimonmate = false;
 
         public float Fovdes = 90f; // fov
+
         private float boneThickness2 = 4.0f; // bone thickness
         private float boxThickness = 4.0f; // box thickness
         private float snaplinePos = 0.0f; // snapline pos
@@ -69,7 +70,6 @@ namespace cs2simpleESPBones
         private Vector4 fillColor = new Vector4(0.3f, 0.3f, 0.3f, 0.4f); // white transparent
         private Vector4 boneColor = new Vector4(1, 1, 1, 1); // def white
         private Vector4 nameColor = new Vector4(1, 1, 1, 1); // def white
-
 
         #endregion
 
@@ -169,8 +169,22 @@ namespace cs2simpleESPBones
             ShowWindow(handle, SW_HIDE);
 
             ApplyStyle();
-            ImGui.SetNextWindowSize(new Vector2(690,460));
-            ImGui.Begin("Hexa CS2", ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
+            Vector2 sizes = new Vector2(690,460);
+            ImGui.SetWindowSize(sizes);
+            ImGui.Begin("Hexa CS2", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
+
+            #region borderline
+            var draw = ImGui.GetForegroundDrawList(); // Foreground olmalı
+            var pos = ImGui.GetWindowPos();
+            var size = ImGui.GetWindowSize();
+
+            draw.AddLine(
+            new Vector2(pos.X, pos.Y),              // sol üst köşe
+            new Vector2(pos.X + size.X, pos.Y),      // sağ üst köşe
+            ImGui.GetColorU32(new Vector4(1f, 0.5f, 0f, 1f)), // TURUNCU
+            1f // kalınlık
+            );
+            #endregion
 
             #region font
             ReplaceFont("C:\\Windows\\Fonts\\arialbd.TTF", 14, FontGlyphRangeType.English);
@@ -178,20 +192,38 @@ namespace cs2simpleESPBones
 
             if (ImGui.BeginMenuBar())
             {
-              ImGui.SetCursorPosX(315);
-              ImGui.Text("Hexa CS2");
-              ImGui.EndMenuBar();
+
+                ImGui.SetCursorPosX(605);
+                if(ImGui.Button("-", new Vector2(20, 20)))
+                {
+                    sizes = new Vector2(690, 20);
+                    ImGui.SetWindowSize(sizes);
+                }
+                else if(ImGui.Button("+", new Vector2(20, 20)))
+                {
+                    sizes = new Vector2(690, 460);
+                    ImGui.SetWindowSize(sizes);
+                }
+                else if (ImGui.Button("x", new Vector2(20, 20)))
+                {
+                    Environment.Exit(0);
+                }
+
+
+                ImGui.SetCursorPosX(315);
+                ImGui.Text("Hexa CS2");
+                ImGui.EndMenuBar();
             }
 
             #region sidebar
             var style = ImGui.GetStyle();
             var colors = style.Colors;
-            
+
             ImGui.SetCursorPosX(ImGui.GetCursorPosX() + 5f);
             ImGui.BeginChild("LeftTabs", new Vector2(170, 0), ImGuiChildFlags.None);
-            
+
             //TABS
-            
+
             ImGui.SetCursorPosY(5);
             ImGui.SetCursorPosX(66.8f);
             ImGui.SetWindowFontScale(1.1f);
@@ -200,7 +232,7 @@ namespace cs2simpleESPBones
             ImGui.Separator();
             //ImGui.Spacing();
             ImGui.SetWindowFontScale(1.0f);
-            
+
             //Rage Wallhack-Aimbot
             ImGui.SeparatorText("Rage");
             ImGui.SetCursorPosX(5);
@@ -209,14 +241,14 @@ namespace cs2simpleESPBones
                 activeTab = 1;
             }
             ImGui.PopStyleColor();
-            
+
             ImGui.SetCursorPosX(5);
             if (ImGui.Button("Aimbot", new Vector2(160, 35)))
             {
                 activeTab = 2;
             }
             //Rage Wallhack-Aimbot
-            
+
             // semi safe triggerbot
             ImGui.SeparatorText("Semi-Safe");
             ImGui.Spacing();
@@ -227,7 +259,7 @@ namespace cs2simpleESPBones
             }
             ImGui.Spacing();
             // semi safe triggerbot
-            
+
             // safe visuals fov-snaplineposx
             ImGui.SeparatorText("Safe Visuals");
             ImGui.Spacing();
@@ -236,16 +268,16 @@ namespace cs2simpleESPBones
             {
                 activeTab = 4;
             }
-            
+
             ImGui.SetCursorPosX(5);
-            if (ImGui.Button("Snapline PosX", new Vector2(160, 35)))
+            if (ImGui.Button("Snapline PosY", new Vector2(160, 35)))
             {
                 activeTab = 5;
             }
             ImGui.Spacing();
             // safe visuals fov-snaplineposx
-            
-            
+
+
             // other misc-exit
             ImGui.SeparatorText("Other");
             ImGui.Spacing();
@@ -255,19 +287,19 @@ namespace cs2simpleESPBones
                 activeTab = 6;
             }
             ImGui.PopStyleColor();
-            
+
             ImGui.SetCursorPosX(5);
             if (ImGui.Button("Exit", new Vector2(160, 35)))
             {
                 activeTab = 7;
             }
             // other misc-exit
-            
-            
+
+
             ImGui.EndChild();
             ImGui.SameLine();
             #endregion
-            
+
             ImGui.SameLine();
 
             #region tabs
@@ -276,7 +308,7 @@ namespace cs2simpleESPBones
             ImGui.BeginChild("MainPanel", new Vector2(475, 00));
 
             switch (activeTab)
-              {
+            {
                 case 1:
                     WallhackTab();
                     break;
@@ -304,8 +336,8 @@ namespace cs2simpleESPBones
                 case 7:
                     Environment.Exit(0);
                     break;
-              }
-            
+            }
+
             ImGui.EndChild();
             #endregion
 
@@ -314,94 +346,97 @@ namespace cs2simpleESPBones
 
             // draw stuff
             if (enableESP)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawBones(entity);
-                                }
-                            }
-                        }
-
-            if (boxESP)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawBox(entity);
-                                }
-                            }
-                        }
-
-            if (fillheadESP)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawHeadFilled(entity);
-                                }
-                            }
-                        }
-
-            if (fillESP)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawFillBox(entity);
-                                }
-                            }
-                        }
-               
-            if (healthESP)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawHealth(entity);
-                                }
-                            }
-                        }
-
-            if (nameESP)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawName(entity, 0);
-                                }
-                            }
-                        }
-
-            if (snaplines)
-                        {
-                            foreach (var entity in entities)
-                            {
-                                // check if entity on screen
-                                if (EntityOnScreen(entity))
-                                {
-                                    DrawHeadLine(entity);
-                                }
-                            }
-                        }
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawBones(entity);
+                    }
+                }
             }
 
-  
+            if (boxESP)
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawBox(entity);
+                    }
+                }
+            }
+
+            if (fillheadESP)
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawHeadFilled(entity);
+                    }
+                }
+            }
+
+            if (fillESP)
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawFillBox(entity);
+                    }
+                }
+            }
+
+            if (healthESP)
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawHealth(entity);
+                    }
+                }
+            }
+
+            if (nameESP)
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawName(entity, 0);
+                    }
+                }
+            }
+
+            if (snaplines)
+            {
+                foreach (var entity in entities)
+                {
+                    // check if entity on screen
+                    if (EntityOnScreen(entity))
+                    {
+                        DrawHeadLine(entity);
+                    }
+                }
+            }
+
+            ImGui.End();
+
+        }
+
+
         private void WallhackTab()
         {
-            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+            ImGui.GetStyle().FramePadding = new Vector2(4, 4);
 
             ImGui.Spacing();
 
@@ -450,7 +485,6 @@ namespace cs2simpleESPBones
                 snaplines = true;
                 aimbot = true;
             }
-
             ImGui.SameLine();
 
             ImGui.SetCursorPosX(170);
@@ -466,11 +500,26 @@ namespace cs2simpleESPBones
                 snaplines = false;
                 aimbot = false;
             }
+            ImGui.SameLine();
+
+            ImGui.SetCursorPosX(330);
+            if (ImGui.Button("My Fav Setting", new Vector2(140, 35)))
+            {
+                fillheadESP = true;
+                boxESP = true;
+                fillESP = true;
+                nameESP = true;
+                healthESP = true;
+                aimbot = true;
+                enemyColor = new Vector4(1, 0, 1, 1); //purple
+                nameColor = new Vector4(0.6039f, 0.2627f, 1.0f, 1.0f); //light purple
+                boneColor = new Vector4(1, 0, 0, 1); //red
+            }
         }
-        
+
         private void AimbotTab()
         {
-            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+            ImGui.GetStyle().FramePadding = new Vector2(4, 4);
 
             ImGui.Spacing();
 
@@ -487,7 +536,7 @@ namespace cs2simpleESPBones
 
         private void triggerLegit()
         {
-            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+            ImGui.GetStyle().FramePadding = new Vector2(4, 4);
 
             ImGui.Spacing();
 
@@ -501,7 +550,7 @@ namespace cs2simpleESPBones
 
         private void VisualFovLegit()
         {
-            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+            ImGui.GetStyle().FramePadding = new Vector2(4, 4);
 
             ImGui.Spacing();
 
@@ -515,7 +564,7 @@ namespace cs2simpleESPBones
 
         private void VisualSnaplineLegit()
         {
-            ImGui.GetStyle().FramePadding = new Vector2(6, 6);
+            ImGui.GetStyle().FramePadding = new Vector2(4, 4);
 
             ImGui.Spacing();
 
@@ -621,7 +670,8 @@ namespace cs2simpleESPBones
             ImGui.PopStyleVar(2);
         }
 
-            // check position
+
+        // check position
         bool EntityOnScreen(Entity entity)
         {
             if (entity.position2D.X > 0 && entity.position2D.X < screenSize.X && entity.position2D.Y > 0 && entity.position2D.Y < screenSize.Y)
@@ -629,7 +679,7 @@ namespace cs2simpleESPBones
                 return true;
             }
             return false;
-            }
+        }
         // drawing methods
         private void DrawBones(Entity entity)
         {
@@ -711,7 +761,7 @@ namespace cs2simpleESPBones
 
             drawList.AddRectFilled(rectTop, rectBottom, ImGui.ColorConvertFloat4ToU32(fillColor));
         }
-    
+
         private void DrawHeadLine(Entity entity)
         {
             ///entity.position2D = ayak
@@ -722,19 +772,19 @@ namespace cs2simpleESPBones
             Vector4 lineColor = localPlayer.team == entity.team ? teamColor : enemyColor;
 
             Vector2 lineStart = new Vector2(screenSize.X / 2, screenSize.Y - snaplinePos);
-            Vector2 lineEnd = new Vector2(entity.viewPosition2D.X,entity.viewPosition2D.Y);
+            Vector2 lineEnd = new Vector2(entity.viewPosition2D.X, entity.viewPosition2D.Y);
             Vector2 headPos = entity.viewPosition2D;
 
             drawList.AddCircleFilled(lineEnd, 5, ImGui.ColorConvertFloat4ToU32(lineColor));
 
-            drawList.AddLine(lineStart,headPos, ImGui.ColorConvertFloat4ToU32(lineColor));
+            drawList.AddLine(lineStart, headPos, ImGui.ColorConvertFloat4ToU32(lineColor));
 
         }
 
         private void DrawName(Entity entity, int yOffset)
         {
-            if(nameESP)
-            {   
+            if (nameESP)
+            {
                 Vector2 textloc = new Vector2(entity.position2D.X - 45, entity.position2D.Y - yOffset); // text location
                 drawList.AddText(textloc, ImGui.ColorConvertFloat4ToU32(nameColor), $"{entity.name}"); // draw name
             }
